@@ -4,7 +4,6 @@ import React, {useEffect, useState, useRef} from "react";
 function App() {
 	const [memes, setMemes] = useState([]);
 	const canvasRef = useRef(null);
-	const ref = useRef(null);
 	useEffect(() => {
 		const canvas = canvasRef.current;
 
