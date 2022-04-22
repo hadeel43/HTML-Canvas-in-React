@@ -24,6 +24,8 @@ function App() {
 					};
 					return imageObj;
 				});
+				// console.log(typeof ref);
+				// context.drawImage(ref, 0, 0);
 			} catch (error) {
 				console.log("error", error);
 			}
