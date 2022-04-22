@@ -33,10 +33,9 @@ function App() {
 	const DownloadCanvas = () => {
 		const canvas = canvasRef.current;
 		if (canvas) {
-			const link = document.createElement("a");
-			link.download = "canvas.png";
-			link.href = imageUrl;
-			link.click();
+			linkRef.current.download = "canvas.png";
+			linkRef.current.href = imageUrl;
+			linkRef.current.click();
 		}
 	};
 	return (
@@ -47,7 +46,9 @@ function App() {
 				height={1080}
 				ref={canvasRef}
 			></canvas>
-
+			<a className="hidden" ref={linkRef} href="/">
+				test
+			</a>
 			<button onClick={DownloadCanvas}>Download</button>
 		</div>
 	);
