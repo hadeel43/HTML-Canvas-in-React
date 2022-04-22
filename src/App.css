@@ -2,11 +2,7 @@
   padding: 20px;
 }
 .canvas{
-  width: 1920px;
-  height: 1080px;
-  border: 1px solid #cecece
-  ;
-
+  border: 1px solid #cecece;
 }
 
 .hidden{

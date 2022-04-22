@@ -2,37 +2,43 @@ import "./App.css";
 import React, {useEffect, useState, useRef} from "react";
 
 function App() {
-	const [memes, setMemes] = useState([]);
 	const canvasRef = useRef(null);
-	const ref = useRef(null);
-	useEffect(() => {
-		const canvas = canvasRef.current;
+	const linkRef = useRef(null);
+	const [imageUrl, setImageURL] = useState(null);
+	const api = "https://api.imgflip.com/get_memes";
 
-		const context = canvas.getContext("2d");
-		const api = "https://api.imgflip.com/get_memes";
+	useEffect(() => {
 		const fetchData = async () => {
+			const canvas = canvasRef.current;
+			const context = canvas.getContext("2d");
 			try {
 				const response = await fetch(api);
 				const json = await response.json();
-
-				setMemes(json.data.memes);
-				json.data.memes.map((image) => {
+				json.data.memes.slice(0, 10).map((image, index) => {
 					var imageObj = new Image();
 					imageObj.src = image.url;
+					imageObj.crossOrigin = "*";
 					imageObj.onload = function () {
-						context.drawImage(imageObj, 15, 20);
+						context.drawImage(imageObj, 200 * index, 0, 200, 200);
+						setImageURL(canvas.toDataURL("image/png"));
 					};
 					return imageObj;
 				});
-				// console.log(typeof ref);
-				// context.drawImage(ref, 0, 0);
 			} catch (error) {
 				console.log("error", error);
 			}
 		};
 		fetchData();
 	}, []);
-
+	const DownloadCanvas = () => {
+		const canvas = canvasRef.current;
+		if (canvas) {
+			const link = document.createElement("a");
+			link.download = "canvas.png";
+			link.href = imageUrl;
+			link.click();
+		}
+	};
 	return (
 		<div className="container">
 			<canvas
@@ -41,15 +47,8 @@ function App() {
 				height={1080}
 				ref={canvasRef}
 			></canvas>
-			{memes.map((image) => (
-				<img
-					key={image.id}
-					ref={ref}
-					alt=""
-					src={image.url}
-					className="hidden"
-				/>
-			))}
+
+			<button onClick={DownloadCanvas}>Download</button>
 		</div>
 	);
 }
